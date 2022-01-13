@@ -130,15 +130,13 @@ class Atm{
     }
     static void deposit(int id){
         int total=0;
-        int countUser[]={0,0,0,0};
         System.out.print("Enter the amount to be deposited : ");
         int cash=sc.nextInt();
         for(int i=0;i<4;){
             System.out.print("Enter number of "+money[i]+"s : ");
             int num=sc.nextInt();
-            countUser[i]+=num;
-            count[i]=count[i]+countUser[i];
-            if(countUser[i]<maxMoney[i]){
+            count[i]=count[i]+num;
+            if(count[i]<=maxMoney[i]){
                 total=total+(money[i]*num);
                 i++;
             }
@@ -160,27 +158,34 @@ class Atm{
         System.out.print("Enter the amount to withdraw : ");
         int withdrawMoney=sc.nextInt();
         int temp=withdrawMoney;
-        if(withdrawMoney<use[id].amount && withdrawMoney<totalAmount ){
+        int countwith[]={0,0,0,0};
+        int tempcount[]=count;
+        if(withdrawMoney<=use[id].amount && withdrawMoney<=totalAmount ){
            if( withdrawMoney%100==0 && withdrawMoney%10==0){
                 while(temp>=2000 && count[3]>0){
                     temp-=2000;
-                    count[3]--;
+                    countwith[3]++;
+                    tempcount[3]--;
                 }
                 while(temp>=500 && count[2]>0){
                     temp-=500;
-                    count[2]--;
+                    countwith[2]++;
+                    tempcount[2]--;
                 }
                 while(temp>=200 && count[1]>0){
                     temp-=200;
-                    count[1]--;
+                    countwith[1]++;
+                    tempcount[1]--;
                 }
                 while(temp>=100 && count[0]>0){
                     temp-=100;
-                    count[0]--;
+                    countwith[0]++;
+                    tempcount[0]--;
                 }
                 if(temp==0){
                     use[id].amount-=withdrawMoney;
                     totalAmount-=withdrawMoney;
+                    count=tempcount;
                     System.out.println("Amount withdrawed successfully!!");
                 }
                 else{
